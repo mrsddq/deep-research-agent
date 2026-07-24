@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "deep-research-agent"
+version = "0.1.0"
+description = "A source-grounded, multi-query web research agent"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = ["fastapi>=0.115,<1", "uvicorn[standard]>=0.34,<1"]
+
+[project.optional-dependencies]
+dev = ["httpx>=0.28,<1", "pytest>=8,<10", "ruff>=0.9,<1"]
+
+[project.scripts]
+deep-research = "deep_research.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/deep_research"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
