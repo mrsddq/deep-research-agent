@@ -47,3 +47,17 @@ docker build -t deep-research .
 ```
 
 MIT licensed.
+
+## Reliability contract
+
+`max_sources` caps fetched pages across all queries (1–15 for the library, 2–15 for the API).
+Candidates are selected round-robin across the four planned queries. Equal relevance scores
+use URL ordering, so concurrent completion does not change citation IDs. Irrelevant pages with
+zero lexical overlap are omitted. Failed page fetches can use provider snippets, but every source
+labels `evidence_type` as `page` or `search_snippet`; `warnings` expose search/fetch failures
+without exception internals. A snippet is not a verified reading of the page.
+
+Source fetches validate public HTTP(S) destinations before the request and every redirect,
+ignore ambient proxies, and enforce a 2 MB response budget. DNS rebinding still requires network
+egress controls. The tests use fake providers and pages: no API key, paid call, model download,
+or live-web accuracy claim. The pipeline is extractive; it does not train or invoke an LLM.
