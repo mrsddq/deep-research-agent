@@ -25,6 +25,6 @@ def research(request: ResearchRequest) -> dict[str, object]:
     try:
         report = ResearchAgent(provider_from_environment(), max_sources=request.max_sources).research(request.question)
     except Exception as exc:
-        raise HTTPException(502, f"Research failed: {exc}") from exc
+        raise HTTPException(502, "Research could not be completed") from exc
     return {**asdict(report), "markdown": report.to_markdown()}
 
