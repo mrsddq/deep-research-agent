@@ -42,10 +42,13 @@ class ResearchReport:
     def to_markdown(self) -> str:
         findings = "\n".join(f"- {finding}" for finding in self.findings)
         sources = "\n".join(f"{source.id}. [{source.title}]({source.url}) ({source.evidence_type})" for source in self.sources)
+        warnings = ("\n## Warnings\n\n" + "\n".join(f"- {warning}" for warning in self.warnings) + "\n"
+                    if self.warnings else "")
         return (
             f"# Research report\n\n**Question:** {self.question}\n\n"
             f"## Executive summary\n\n{self.summary}\n\n"
             f"## Key findings\n\n{findings}\n\n## Sources\n\n{sources}\n"
+            f"{warnings}"
         )
 
 

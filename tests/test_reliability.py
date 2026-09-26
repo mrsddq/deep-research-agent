@@ -52,6 +52,9 @@ def test_provider_outage_is_visible_and_yields_no_evidence():
     report = ResearchAgent(provider).research("Solar deployment?")
     assert report.sources == ()
     assert len(report.warnings) == 4
+    markdown = report.to_markdown()
+    assert all(warning in markdown for warning in report.warnings)
+    assert "secret" not in markdown
 
 
 def test_private_and_redirect_targets_are_blocked(monkeypatch):
